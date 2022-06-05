@@ -11,43 +11,34 @@ const UpdateUser = () => {
             .then(data => setUser(data))
     }, [id]);
 
-    const handleNameUpdate = e => {
+    const handleNameChange = e => {
         const updatedName = e.target.value;
-        const updatedUser = { name: updatedName, email: user.email };
+        const updatedUser = { ...user };
+        updatedUser.name = updatedName;
+        // const updatedUser = { name: updatedName, email: user.email };
         setUser(updatedUser);
     }
-
-    const handleEmailUpdate = e => {
+    const handleEmailChange = e => {
         const updatedEmail = e.target.value;
-        // const updatedUser = {...user};
-        // updatedUser.email = updatedEmail;
-        const updatedUser = { name: user.name, email: updatedEmail };
+        const updatedUser = { ...user };
+        updatedUser.email = updatedEmail;
+        // const updatedUser = {name: user.name, email: updatedEmail}
         setUser(updatedUser);
     }
 
     const handleUserUpdate = e => {
 
-        fetch(`http://localhost:5000/users/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(user)
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.modifiedCount > 0) {
-                    alert('User Updated Successfully');
-                }
-            })
 
 
-    };
+        e.preventDefault();
+    }
     return (
         <div>
             <h2>Update: {user.name}</h2>
             <p>User id: {id}</p>
             <form onSubmit={handleUserUpdate}>
-                <input type="text" onChange={handleNameUpdate} value={user.name || ''} />
-                <input type="email" onChange={handleEmailUpdate} value={user.email || ''} />
+                <input type="text" onChange={handleNameChange} value={user.name || ''} />
+                <input type="email" onChange={handleEmailChange} value={user.email || ''} />
                 <input type="submit" value="Update" />
             </form>
         </div>
